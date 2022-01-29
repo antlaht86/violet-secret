@@ -1,21 +1,27 @@
 import nodemailer from "nodemailer";
+import invariant from "tiny-invariant";
 
 export async function sendEmail(toEmail: string, link: string) {
+  invariant(process.env.GMAIL_USER, "process.env.GMAIL_USER is required");
+  invariant(
+    process.env.GMAIL_PASSWORD,
+    "process.env.GMAIL_PASSWORD is required"
+  );
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "sopiva1001@gmail.com",
-      pass: "%V;hmXb6p3&.;P/aBc6(ek:!(nt+.j2%",
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASSWORD,
     },
   });
 
-  const text = `Tässä linkki salaiseen tietoon: ${link}`;
+  const text = `Here is a link to your secret: ${link}`;
 
   await transporter.sendMail({
     from: "sopiva1001@gmail.com", // sender address
     to: toEmail,
-    subject: "test",
-    html: `<p> <a href=${link}>Painamalla tästä</a></p>`,
+    subject: "Here is a little secret for you",
+    html: `<p> <a href=${link}>Click here and find your secret</a></p>`,
     text,
   });
 }
