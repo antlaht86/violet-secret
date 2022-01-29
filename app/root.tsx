@@ -8,6 +8,13 @@ import {
 } from "remix";
 import type { MetaFunction } from "remix";
 
+import styles from "./tailwind.css";
+import NavList from "./components/nav";
+
+export function links() {
+  return [{ rel: "stylesheet", href: styles }];
+}
+
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
 };
@@ -22,9 +29,11 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <NavList />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
