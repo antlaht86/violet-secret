@@ -25,7 +25,7 @@ export const action: ActionFunction = async ({ request }) => {
   };
 
   if (!password) {
-    errors.password.push({ id: "required", message: "is required" });
+    errors.password.push({ id: "required", message: "Is required" });
   } else {
     if (password?.length < MIN_LENGTH) {
       errors.password.push({
@@ -39,8 +39,8 @@ export const action: ActionFunction = async ({ request }) => {
       });
     }
   }
-  if (!email) errors.email.push({ id: "required", message: "is required" });
-  if (!text) errors.text.push({ id: "required", message: "is required" });
+  if (!email) errors.email.push({ id: "required", message: "Is required" });
+  if (!text) errors.text.push({ id: "required", message: "Is required" });
 
   for (const [_, value] of Object.entries(errors)) {
     if (value.length > 0) return errors;
