@@ -63,8 +63,8 @@ export default function Create() {
   const errors = useActionData<CustomError>();
 
   const baseUrl = process.env.BASE_URL ?? "http://192.168.1.154:3000";
-  // let [searchParams] = useSearchParams();
-  // let id = searchParams.getAll("id");
+  let [searchParams] = useSearchParams();
+  let id = searchParams.getAll("id");
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   // console.log("id", id[0]);
@@ -73,16 +73,16 @@ export default function Create() {
     inputRef?.current?.focus();
   }, []);
 
-  // if (id[0]) {
-  //   return (
-  //     <div className="container mx-auto">
-  //       <div className="flex flex-col justify-center items-center mt-14">
-  //         <p>Your secret url is: </p>
-  //         <p>{`${baseUrl}/read/${id}`}</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (id[0]) {
+    return (
+      <div className="container mx-auto">
+        <div className="flex flex-col justify-center items-center mt-14">
+          <p>Your secret url is: </p>
+          <p>{`${baseUrl}/read/${id}`}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto">
