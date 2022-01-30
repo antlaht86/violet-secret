@@ -529,32 +529,6 @@ function encryptPassword(password) {
 // app/routes/create.tsx
 init_react();
 var import_uuid = __toModule(require("uuid"));
-
-// app/mail/index.ts
-init_react();
-var import_nodemailer = __toModule(require("nodemailer"));
-var import_tiny_invariant3 = __toModule(require("tiny-invariant"));
-async function sendEmail(toEmail, link) {
-  (0, import_tiny_invariant3.default)(process.env.GMAIL_USER, "process.env.GMAIL_USER is required");
-  (0, import_tiny_invariant3.default)(process.env.GMAIL_PASSWORD, "process.env.GMAIL_PASSWORD is required");
-  const transporter = import_nodemailer.default.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASSWORD
-    }
-  });
-  const text = `Here is a link to your secret: ${link}`;
-  await transporter.sendMail({
-    from: "sopiva1001@gmail.com",
-    to: toEmail,
-    subject: "Here is a little secret for you",
-    html: `<p> <a href=${link}>Click here and find your secret</a></p>`,
-    text
-  });
-}
-
-// app/routes/create.tsx
 var import_react = __toModule(require("react"));
 function CustomError({
   data
@@ -633,15 +607,13 @@ function Read() {
       method: "post",
       className: "flex flex-col item-center justify-self-center"
     }, /* @__PURE__ */ import_react2.default.createElement("input", {
-      style: { visibility: "hidden" },
       defaultValue: params.readid,
       name: "readId",
-      type: "text"
+      type: "hidden"
     }), /* @__PURE__ */ import_react2.default.createElement("input", {
-      style: { visibility: "hidden" },
       defaultValue: "ready",
       name: "_action",
-      type: "text"
+      type: "hidden"
     }), /* @__PURE__ */ import_react2.default.createElement("button", {
       "aria-label": "delete",
       className: "mt-14 bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 border border-violet-700 rounded",
@@ -654,15 +626,13 @@ function Read() {
     method: "post",
     className: " w-full flex flex-col justify-center items-center mt-14"
   }, /* @__PURE__ */ import_react2.default.createElement("input", {
-    style: { visibility: "hidden" },
     defaultValue: params.readid,
     name: "readId",
-    type: "text"
+    type: "hidden"
   }), /* @__PURE__ */ import_react2.default.createElement("input", {
-    style: { visibility: "hidden" },
     defaultValue: "read",
     name: "_action",
-    type: "text"
+    type: "hidden"
   }), /* @__PURE__ */ import_react2.default.createElement("div", {
     className: "m-5 w-1/2"
   }, /* @__PURE__ */ import_react2.default.createElement("label", {
@@ -716,10 +686,8 @@ var MIN_LENGTH = 5;
 var action2 = async ({ request }) => {
   const formData = await request.formData();
   const password = formData.get("password");
-  const email = formData.get("email");
   const text = formData.get("text");
   const errors = {
-    email: [],
     password: [],
     text: []
   };
@@ -738,8 +706,6 @@ var action2 = async ({ request }) => {
       });
     }
   }
-  if (!email)
-    errors.email.push({ id: "required", message: "Is required" });
   if (!text)
     errors.text.push({ id: "required", message: "Is required" });
   for (const [_, value] of Object.entries(errors)) {
@@ -748,13 +714,12 @@ var action2 = async ({ request }) => {
   }
   const readId = (0, import_uuid2.v4)();
   await setSecret(readId, encryptPassword(password), encryptText(password, text));
-  const baseUrl = process.env.BASE_URL ?? "http://192.168.1.154:3000";
-  sendEmail(email, `${baseUrl}/read/${readId}`);
-  return (0, import_remix5.redirect)(`/read/${readId}`);
+  return (0, import_remix5.redirect)(`/create/?id=${readId}`);
 };
 function Create() {
-  const inputRef = import_react3.default.useRef(null);
   const errors = (0, import_remix5.useActionData)();
+  const baseUrl = process.env.BASE_URL ?? "http://192.168.1.154:3000";
+  const inputRef = import_react3.default.useRef(null);
   import_react3.default.useEffect(() => {
     var _a;
     (_a = inputRef == null ? void 0 : inputRef.current) == null ? void 0 : _a.focus();
@@ -779,17 +744,6 @@ function Create() {
     autoComplete: "off"
   }), /* @__PURE__ */ import_react3.default.createElement(CustomError2, {
     data: errors == null ? void 0 : errors.password
-  })), /* @__PURE__ */ import_react3.default.createElement("div", {
-    className: "m-5 w-1/2"
-  }, /* @__PURE__ */ import_react3.default.createElement("label", {
-    htmlFor: "email",
-    className: labelStyle2
-  }, "Email"), /* @__PURE__ */ import_react3.default.createElement("input", {
-    name: "email",
-    className: getInputStyle2(errors == null ? void 0 : errors.email),
-    type: "email"
-  }), /* @__PURE__ */ import_react3.default.createElement(CustomError2, {
-    data: errors == null ? void 0 : errors.email
   })), /* @__PURE__ */ import_react3.default.createElement("div", {
     className: "m-5 w-1/2"
   }, /* @__PURE__ */ import_react3.default.createElement("label", {

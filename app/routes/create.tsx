@@ -1,11 +1,11 @@
-import { redirect, useActionData } from "remix";
+import { redirect, useActionData, useSearchParams } from "remix";
 import type { ActionFunction } from "remix";
 import { setSecret } from "../db/db";
 import { v4 as uuidv4 } from "uuid";
 import { SecretFormData } from "~/types";
 import { encryptPassword, encryptText } from "~/crypto";
-import { sendEmail } from "~/mail";
 import React from "react";
+
 type ErrorsKeys = keyof SecretFormData;
 type CustomError = Record<ErrorsKeys, { id: string; message: string }[]>;
 
@@ -15,11 +15,11 @@ const MIN_LENGTH = 5;
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const password = formData.get("password") as string | null;
-  const email = formData.get("email") as string | null;
+  // const email = formData.get("email") as string | null;
   const text = formData.get("text") as string | null;
 
   const errors: CustomError = {
-    email: [],
+    // email: [],
     password: [],
     text: [],
   };
@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
       });
     }
   }
-  if (!email) errors.email.push({ id: "required", message: "Is required" });
+  // if (!email) errors.email.push({ id: "required", message: "Is required" });
   if (!text) errors.text.push({ id: "required", message: "Is required" });
 
   for (const [_, value] of Object.entries(errors)) {
@@ -54,20 +54,35 @@ export const action: ActionFunction = async ({ request }) => {
     encryptText(password!, text!)
   );
 
-  const baseUrl = process.env.BASE_URL ?? "http://192.168.1.154:3000";
-  await sendEmail(email as string, `${baseUrl}/read/${readId}`);
+  // await sendEmail(email as string, `${baseUrl}/read/${readId}`);
 
-  return redirect(`/read/${readId}`);
+  return redirect(`/create/?id=${readId}`);
 };
 
 export default function Create() {
-  const inputRef = React.useRef<HTMLInputElement>(null);
-
   const errors = useActionData<CustomError>();
+
+  const baseUrl = process.env.BASE_URL ?? "http://192.168.1.154:3000";
+  // let [searchParams] = useSearchParams();
+  // let id = searchParams.getAll("id");
+
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  // console.log("id", id[0]);
 
   React.useEffect(() => {
     inputRef?.current?.focus();
   }, []);
+
+  // if (id[0]) {
+  //   return (
+  //     <div className="container mx-auto">
+  //       <div className="flex flex-col justify-center items-center mt-14">
+  //         <p>Your secret url is: </p>
+  //         <p>{`${baseUrl}/read/${id}`}</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="container mx-auto">
@@ -90,7 +105,7 @@ export default function Create() {
           />
           <CustomError data={errors?.password} />
         </div>
-        <div className="m-5 w-1/2">
+        {/* <div className="m-5 w-1/2">
           <label htmlFor="email" className={labelStyle}>
             Email
           </label>
@@ -100,7 +115,7 @@ export default function Create() {
             type="email"
           />
           <CustomError data={errors?.email} />
-        </div>
+        </div> */}
         <div className="m-5 w-1/2">
           <label className={labelStyle} htmlFor="text">
             Secret text

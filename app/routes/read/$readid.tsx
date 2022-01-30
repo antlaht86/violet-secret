@@ -73,18 +73,8 @@ export default function Read() {
           method="post"
           className="flex flex-col item-center justify-self-center"
         >
-          <input
-            style={{ visibility: "hidden" }}
-            defaultValue={params.readid}
-            name="readId"
-            type="text"
-          />
-          <input
-            style={{ visibility: "hidden" }}
-            defaultValue={"ready"}
-            name="_action"
-            type="text"
-          />
+          <input defaultValue={params.readid} name="readId" type="hidden" />
+          <input defaultValue={"ready"} name="_action" type="hidden" />
           <button
             aria-label="delete"
             className="mt-14 bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 border border-violet-700 rounded"
@@ -103,18 +93,8 @@ export default function Read() {
         method="post"
         className=" w-full flex flex-col justify-center items-center mt-14"
       >
-        <input
-          style={{ visibility: "hidden" }}
-          defaultValue={params.readid}
-          name="readId"
-          type="text"
-        />
-        <input
-          style={{ visibility: "hidden" }}
-          defaultValue={"read"}
-          name="_action"
-          type="text"
-        />
+        <input defaultValue={params.readid} name="readId" type="hidden" />
+        <input defaultValue={"read"} name="_action" type="hidden" />
         <div className="m-5 w-1/2">
           <label htmlFor="password" className={labelStyle}>
             Password

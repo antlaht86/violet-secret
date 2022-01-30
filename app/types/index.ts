@@ -1,5 +1,5 @@
 export type SecretFormData = {
   password: string;
-  email: string;
+  // email: string;
   text: string;
 };
