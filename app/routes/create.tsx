@@ -34,11 +34,9 @@ export let loader: LoaderFunction = ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const password = formData.get("password") as string | null;
-  // const email = formData.get("email") as string | null;
   const text = formData.get("text") as string | null;
 
   const errors: CustomError = {
-    // email: [],
     password: [],
     text: [],
   };
@@ -58,7 +56,6 @@ export const action: ActionFunction = async ({ request }) => {
       });
     }
   }
-  // if (!email) errors.email.push({ id: "required", message: "Is required" });
   if (!text) errors.text.push({ id: "required", message: "Is required" });
 
   for (const [_, value] of Object.entries(errors)) {
@@ -72,8 +69,6 @@ export const action: ActionFunction = async ({ request }) => {
     encryptPassword(password as string),
     encryptText(password!, text!)
   );
-
-  // await sendEmail(email as string, `${baseUrl}/read/${readId}`);
 
   return redirect(`/create/?id=${readId}`);
 };
@@ -102,12 +97,18 @@ export default function Create() {
     return (
       <div className="container mx-auto">
         <div className="flex flex-col justify-center items-center mt-14">
-          <p className="text-left text-violet-400">Your secret url is: </p>
+          <p
+            className={`${
+              loaderData.isMobile ? "text-center" : "text-left"
+            } text-violet-400`}
+          >
+            Your secret url is:{" "}
+          </p>
           <p
             onClick={setCopied}
-            className={`cursor-pointer text-left ${
-              isCopied ? "text-violet-700" : "text-violet-400"
-            }`}
+            className={`cursor-pointer ${
+              loaderData.isMobile ? "text-center" : "text-left"
+            } ${isCopied ? "text-violet-700" : "text-violet-400"}`}
           >{`${loaderData.baseUrl}/read/${id}`}</p>
         </div>
       </div>
