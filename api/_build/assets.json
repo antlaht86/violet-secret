@@ -1,0 +1,94 @@
+{
+  "version": "74e91ec7",
+  "entry": {
+    "module": "/build/entry.client-M2QZ4W7T.js",
+    "imports": [
+      "/build/_shared/chunk-BUMQGTUX.js",
+      "/build/_shared/chunk-JKO55VJE.js",
+      "/build/_shared/chunk-AKSB5QXU.js"
+    ]
+  },
+  "routes": {
+    "root": {
+      "id": "root",
+      "path": "",
+      "module": "/build/root-MGC4RQ7K.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/about": {
+      "id": "routes/about",
+      "parentId": "root",
+      "path": "about",
+      "module": "/build/routes/about-27AZM3KD.js",
+      "hasAction": false,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/create": {
+      "id": "routes/create",
+      "parentId": "root",
+      "path": "create",
+      "module": "/build/routes/create-FUK33GUY.js",
+      "imports": [
+        "/build/_shared/chunk-OFJI4OOH.js",
+        "/build/_shared/chunk-XKZRLUNU.js"
+      ],
+      "hasAction": true,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/index": {
+      "id": "routes/index",
+      "parentId": "root",
+      "index": true,
+      "module": "/build/routes/index-KU5TVT6K.js",
+      "imports": [
+        "/build/_shared/chunk-XKZRLUNU.js"
+      ],
+      "hasAction": false,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/read/$readid": {
+      "id": "routes/read/$readid",
+      "parentId": "root",
+      "path": "read/:readid",
+      "module": "/build/routes/read/$readid-DZVW2R2G.js",
+      "imports": [
+        "/build/_shared/chunk-OFJI4OOH.js",
+        "/build/_shared/chunk-XKZRLUNU.js"
+      ],
+      "hasAction": true,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/ready": {
+      "id": "routes/ready",
+      "parentId": "root",
+      "path": "ready",
+      "module": "/build/routes/ready-BBNKBZ6H.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/success": {
+      "id": "routes/success",
+      "parentId": "root",
+      "path": "success",
+      "module": "/build/routes/success-NWL5GIG6.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    }
+  },
+  "url": "/build/manifest-74E91EC7.js"
+}
