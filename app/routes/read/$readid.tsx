@@ -1,8 +1,24 @@
-import { ActionFunction, redirect, useActionData, useParams } from "remix";
+import {
+  ActionFunction,
+  LoaderFunction,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useParams,
+} from "remix";
 import { getSecret, removeSecret } from "~/db/db";
 import { decryptText, encryptPassword } from "~/crypto";
 import { CustomError, getInputStyle, inputStyle, labelStyle } from "../create";
 import React from "react";
+
+export let loader: LoaderFunction = ({ request }) => {
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      request.headers.get("user-agent")!
+    );
+
+  return isMobile;
+};
 
 type IActionTypes = "read" | "ready";
 type ErrorsKeys = keyof {
@@ -50,6 +66,8 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Read() {
+  let isTabletOrMobile = useLoaderData<boolean>();
+
   const data = useActionData<string | ICustomError>();
   const params = useParams();
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -60,7 +78,11 @@ export default function Read() {
 
   if (typeof data === "string") {
     return (
-      <div className="container mx-auto w-1/2 flex flex-col items-center mt-14">
+      <div
+        className={`container mx-auto ${
+          isTabletOrMobile ? "w-11/12" : "w-1/2"
+        } flex flex-col items-center mt-14`}
+      >
         <h2 className="mb-3 w-full text-left text-violet-700">Your Secret:</h2>
         <textarea
           disabled
@@ -95,7 +117,7 @@ export default function Read() {
       >
         <input defaultValue={params.readid} name="readId" type="hidden" />
         <input defaultValue={"read"} name="_action" type="hidden" />
-        <div className="m-5 w-1/2">
+        <div className={`m-5 ${isTabletOrMobile ? "w-11/12" : "w-1/2"}`}>
           <label htmlFor="password" className={labelStyle}>
             Password
           </label>

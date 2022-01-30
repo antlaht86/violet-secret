@@ -1,16 +1,35 @@
-import { redirect, useActionData, useSearchParams } from "remix";
+import {
+  LoaderFunction,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useSearchParams,
+} from "remix";
 import type { ActionFunction } from "remix";
 import { setSecret } from "../db/db";
 import { v4 as uuidv4 } from "uuid";
 import { SecretFormData } from "~/types";
 import { encryptPassword, encryptText } from "~/crypto";
 import React from "react";
+import useClipboard from "react-use-clipboard";
 
 type ErrorsKeys = keyof SecretFormData;
 type CustomError = Record<ErrorsKeys, { id: string; message: string }[]>;
 
 const MAX_LENGTH = 32;
 const MIN_LENGTH = 5;
+
+export let loader: LoaderFunction = ({ request }) => {
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      request.headers.get("user-agent")!
+    );
+
+  return {
+    baseUrl: process.env.BASE_URL ?? "http://192.168.1.154:3000",
+    isMobile,
+  };
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -60,14 +79,20 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Create() {
+  let loaderData = useLoaderData<{ baseUrl: string; isMobile: boolean }>();
   const errors = useActionData<CustomError>();
-
-  const baseUrl = process.env.BASE_URL ?? "http://192.168.1.154:3000";
+  const isTabletOrMobile = loaderData.isMobile;
   let [searchParams] = useSearchParams();
   let id = searchParams.getAll("id");
 
+  const [isCopied, setCopied] = useClipboard(
+    `${loaderData.baseUrl}/read/${id}`,
+    {
+      successDuration: 1000,
+    }
+  );
+
   const inputRef = React.useRef<HTMLInputElement>(null);
-  // console.log("id", id[0]);
 
   React.useEffect(() => {
     inputRef?.current?.focus();
@@ -77,8 +102,13 @@ export default function Create() {
     return (
       <div className="container mx-auto">
         <div className="flex flex-col justify-center items-center mt-14">
-          <p>Your secret url is: </p>
-          <p>{`${baseUrl}/read/${id}`}</p>
+          <p className="text-left text-violet-400">Your secret url is: </p>
+          <p
+            onClick={setCopied}
+            className={`cursor-pointer text-left ${
+              isCopied ? "text-violet-700" : "text-violet-400"
+            }`}
+          >{`${loaderData.baseUrl}/read/${id}`}</p>
         </div>
       </div>
     );
@@ -90,7 +120,7 @@ export default function Create() {
         className="flex flex-col justify-center items-center mt-14"
         method="post"
       >
-        <div className="m-5 w-1/2">
+        <div className={`m-5 ${isTabletOrMobile ? "w-11/12" : "w-1/2"}`}>
           <label htmlFor="password" className={labelStyle}>
             Password
           </label>
@@ -105,18 +135,7 @@ export default function Create() {
           />
           <CustomError data={errors?.password} />
         </div>
-        {/* <div className="m-5 w-1/2">
-          <label htmlFor="email" className={labelStyle}>
-            Email
-          </label>
-          <input
-            name="email"
-            className={getInputStyle(errors?.email)}
-            type="email"
-          />
-          <CustomError data={errors?.email} />
-        </div> */}
-        <div className="m-5 w-1/2">
+        <div className={`m-5 ${isTabletOrMobile ? "w-11/12" : "w-1/2"}`}>
           <label className={labelStyle} htmlFor="text">
             Secret text
           </label>
