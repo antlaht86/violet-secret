@@ -55,7 +55,7 @@ export const action: ActionFunction = async ({ request }) => {
   );
 
   const baseUrl = process.env.BASE_URL ?? "http://192.168.1.154:3000";
-  sendEmail(email as string, `${baseUrl}/read/${readId}`);
+  await sendEmail(email as string, `${baseUrl}/read/${readId}`);
 
   return redirect(`/read/${readId}`);
 };
