@@ -7,21 +7,25 @@ export async function sendEmail(toEmail: string, link: string) {
     process.env.GMAIL_PASSWORD,
     "process.env.GMAIL_PASSWORD is required"
   );
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASSWORD,
-    },
-  });
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASSWORD,
+      },
+    });
 
-  const text = `Here is a link to your secret: ${link}`;
+    const text = `Here is a link to your secret: ${link}`;
 
-  await transporter.sendMail({
-    from: "sopiva1001@gmail.com", // sender address
-    to: toEmail,
-    subject: "Here is a little secret for you",
-    html: `<p> <a href=${link}>Click here and find your secret</a></p>`,
-    text,
-  });
+    await transporter.sendMail({
+      from: "sopiva1001@gmail.com", // sender address
+      to: toEmail,
+      subject: "Here is a little secret for you",
+      html: `<p> <a href=${link}>Click here and find your secret</a></p>`,
+      text,
+    });
+  } catch (error) {
+    console.log("👺 mail error:", error);
+  }
 }
