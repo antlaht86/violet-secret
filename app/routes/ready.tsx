@@ -6,5 +6,5 @@ export default function Ready() {
   React.useEffect(() => {
     navigate("../success");
   }, []);
-  return <div>moi</div>;
+  return <div style={{ visibility: "hidden" }}>moi</div>;
 }
