@@ -17,6 +17,7 @@ export async function sendEmail(toEmail: string, link: string) {
     });
 
     const text = `Here is a link to your secret: ${link}`;
+    console.log(" mail :", text);
 
     await transporter.sendMail({
       from: "sopiva1001@gmail.com", // sender address
@@ -26,6 +27,6 @@ export async function sendEmail(toEmail: string, link: string) {
       text,
     });
   } catch (error) {
-    console.log("👺 mail error:", error);
+    console.error("👺 mail error:", error);
   }
 }
