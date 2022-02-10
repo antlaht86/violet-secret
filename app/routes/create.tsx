@@ -1,4 +1,5 @@
 import {
+  Form,
   LoaderFunction,
   redirect,
   useActionData,
@@ -124,7 +125,8 @@ export default function Create() {
 
   return (
     <div className="container mx-auto">
-      <form
+      <Form
+        replace
         className="flex flex-col justify-center items-center mt-14"
         method="post"
       >
@@ -160,7 +162,7 @@ export default function Create() {
         >
           Create
         </button>
-      </form>
+      </Form>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import {
   ActionFunction,
+  Form,
   LoaderFunction,
   redirect,
   useActionData,
@@ -91,7 +92,8 @@ export default function Read() {
           className={inputStyle}
           defaultValue={data}
         ></textarea>
-        <form
+        <Form
+          replace
           method="post"
           className="flex flex-col item-center justify-self-center"
         >
@@ -104,14 +106,15 @@ export default function Read() {
           >
             Delete this secret
           </button>
-        </form>
+        </Form>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto w-full flex flex-col justify-center items-center mt-14">
-      <form
+      <Form
+        replace
         method="post"
         className=" w-full flex flex-col justify-center items-center mt-14"
       >
@@ -139,7 +142,7 @@ export default function Read() {
         >
           Read
         </button>
-      </form>
+      </Form>
     </div>
   );
 }
