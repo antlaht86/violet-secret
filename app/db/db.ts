@@ -1,6 +1,8 @@
 import flatCache from "flat-cache";
 import fs from "fs";
-const cache = flatCache.load("cacheId", "../../.output/static/");
+import path from "path";
+const path1 = path.resolve("../../", ".output/static/");
+const cache = flatCache.load("cacheId", path1);
 
 export function getSecret(id: string): { pd: string; text: string } | null {
   return cache.getKey(id);
