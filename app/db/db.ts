@@ -1,6 +1,6 @@
 import flatCache from "flat-cache";
 import os from "os";
-const cache = flatCache.load("cacheId", "../static/");
+const cache = flatCache.load("cacheId", "../../.output/static/");
 
 export function getSecret(id: string): { pd: string; text: string } | null {
   return cache.getKey(id);
