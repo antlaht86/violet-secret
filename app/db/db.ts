@@ -1,44 +1,21 @@
 import Redis from "ioredis";
+import flatCache from "flat-cache";
 import invariant from "tiny-invariant";
-const redis = new Redis(process.env.REDIS_URL);
 
-export async function getSecret(id: string) {
-  const promise = redis.hgetall(id, (err, result) => {
-    if (err) {
-      console.error(err);
-      return null;
-    } else {
-      return result;
-    }
-  });
-  return promise;
+const cache = flatCache.load("cacheId");
+
+export function getSecret(id: string): { pd: string; text: string } | null {
+  console.log("🤡 cache: ", cache.all());
+
+  return cache.getKey(id);
 }
 
-export async function setSecret(id: string, pd: string, text: string) {
-  const promise = redis.hset(
-    id,
-    ["password", pd, "text", text],
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        return null;
-      } else {
-        return result;
-      }
-    }
-  );
-  return promise;
+export function setSecret(id: string, pd: string, text: string) {
+  cache.setKey(id, { pd, text });
+  cache.save();
+  console.log("🤡 cache: ", cache.all());
 }
 
-export async function removeSecret(id: string) {
-  invariant(id, "id is required");
-  const promise = redis.hdel(id, ["password", "text"], (err, result) => {
-    if (err) {
-      console.error(err);
-      return null;
-    } else {
-      return result;
-    }
-  });
-  return promise;
+export function removeSecret(id: string) {
+  cache.removeKey(id);
 }

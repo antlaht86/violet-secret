@@ -1,9 +1,9 @@
 {
-  "version": "67ef7635",
+  "version": "ab4ac33e",
   "entry": {
-    "module": "/build/entry.client-ZKS6X6HN.js",
+    "module": "/build/entry.client-J2DDLZLY.js",
     "imports": [
-      "/build/_shared/chunk-5V6FTCYX.js",
+      "/build/_shared/chunk-YAVSW2WG.js",
       "/build/_shared/chunk-6QH5KI2V.js",
       "/build/_shared/chunk-E7VMOUYL.js"
     ]
@@ -12,7 +12,7 @@
     "root": {
       "id": "root",
       "path": "",
-      "module": "/build/root-VPMW2VUB.js",
+      "module": "/build/root-5WKROP33.js",
       "hasAction": false,
       "hasLoader": false,
       "hasCatchBoundary": false,
@@ -22,7 +22,7 @@
       "id": "routes/about",
       "parentId": "root",
       "path": "about",
-      "module": "/build/routes/about-IJF4IPUM.js",
+      "module": "/build/routes/about-6UNKTFE2.js",
       "hasAction": false,
       "hasLoader": true,
       "hasCatchBoundary": false,
@@ -32,9 +32,9 @@
       "id": "routes/create",
       "parentId": "root",
       "path": "create",
-      "module": "/build/routes/create-4GJ3SQL6.js",
+      "module": "/build/routes/create-AS7ALE3H.js",
       "imports": [
-        "/build/_shared/chunk-7D2GJJ5V.js",
+        "/build/_shared/chunk-6DDGQYQA.js",
         "/build/_shared/chunk-DFRUOYSE.js"
       ],
       "hasAction": true,
@@ -59,9 +59,9 @@
       "id": "routes/read/$readid",
       "parentId": "root",
       "path": "read/:readid",
-      "module": "/build/routes/read/$readid-SJLFTELL.js",
+      "module": "/build/routes/read/$readid-BRKCFE7M.js",
       "imports": [
-        "/build/_shared/chunk-7D2GJJ5V.js",
+        "/build/_shared/chunk-6DDGQYQA.js",
         "/build/_shared/chunk-DFRUOYSE.js"
       ],
       "hasAction": true,
@@ -90,5 +90,5 @@
       "hasErrorBoundary": false
     }
   },
-  "url": "/build/manifest-67EF7635.js"
+  "url": "/build/manifest-AB4AC33E.js"
 }

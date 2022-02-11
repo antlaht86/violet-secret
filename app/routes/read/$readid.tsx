@@ -27,7 +27,7 @@ type ErrorsKeys = keyof {
 };
 
 type IGetHsetAll = {
-  password: string;
+  pd: string;
   text: string;
 };
 
@@ -40,11 +40,12 @@ export const action: ActionFunction = async ({ request }) => {
   const action = formData.get("_action") as IActionTypes;
 
   if (action === "ready") {
-    await removeSecret(readId as string);
+    removeSecret(readId as string);
     return redirect("/ready");
   }
 
-  const res = (await getSecret(String(readId))) as unknown as IGetHsetAll;
+  const res = getSecret(String(readId)) as unknown as IGetHsetAll;
+  console.log("🤡 res: ", res);
 
   const errors: ICustomError = {
     password: [],
@@ -53,7 +54,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (!password)
     errors.password.push({ id: "required", message: "Is required" });
 
-  if (encryptPassword(password as string) !== res.password)
+  if (!res || encryptPassword(password as string) !== res.pd)
     errors.password.push({
       id: "notMatch",
       message: "password does not match or there is no secret for you",
