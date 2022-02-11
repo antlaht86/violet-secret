@@ -1,5 +1,5 @@
 import flatCache from "flat-cache";
-import os from "os";
+import fs from "fs";
 const cache = flatCache.load("cacheId", "../../.output/static/");
 
 export function getSecret(id: string): { pd: string; text: string } | null {
@@ -7,6 +7,10 @@ export function getSecret(id: string): { pd: string; text: string } | null {
 }
 
 export function setSecret(id: string, pd: string, text: string) {
+  console.log(fs.readdirSync("./"));
+  console.log(fs.readdirSync("../"));
+  console.log(fs.readdirSync("../../"));
+  console.log(fs.readdirSync("../../../"));
   cache.setKey(id, { pd, text });
   cache.save();
 }
