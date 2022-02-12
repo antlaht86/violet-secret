@@ -13,6 +13,7 @@ import { SecretFormData } from "~/types";
 import { encryptPassword, encryptText } from "~/crypto";
 import React from "react";
 import useClipboard from "react-use-clipboard";
+import { Link } from "react-router-dom";
 
 type ErrorsKeys = keyof SecretFormData;
 type CustomError = Record<ErrorsKeys, { id: string; message: string }[]>;
@@ -105,12 +106,18 @@ export default function Create() {
           >
             Your secret url is:
           </p>
-          <p
-            onClick={setCopied}
-            className={`cursor-pointer ${
-              loaderData.isMobile ? "text-center" : "text-left"
-            } ${isCopied ? "text-violet-700" : "text-violet-400"}`}
-          >{`${loaderData.baseUrl}/read/${id}`}</p>
+          <div className="flex items-center">
+            <p
+              onClick={setCopied}
+              className={`cursor-pointer ${
+                loaderData.isMobile ? "text-center" : "text-left"
+              } ${isCopied ? "text-violet-700" : "text-violet-400"}`}
+            >{`${loaderData.baseUrl}/read/${id}`}</p>
+            <Link className={"ml-2 text-xl text-violet-400"} to={`/read/${id}`}>
+              ►
+            </Link>
+          </div>
+
           <button
             onClick={setCopied}
             className="flex mt-5 bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 border border-violet-700 rounded"
