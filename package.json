@@ -10,7 +10,8 @@
     "postinstall": "remix setup node",
     "start": "node -r dotenv/config node_modules/.bin/remix-serve api/_build",
     "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
-    "build:css": "tailwindcss -o ./app/tailwind.css"
+    "build:css": "tailwindcss -o ./app/tailwind.css",
+    "push": "git add . && git commit -m '.' && git push origin master"
   },
   "dependencies": {
     "@remix-run/react": "^1.1.3",

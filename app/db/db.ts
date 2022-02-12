@@ -1,18 +1,14 @@
 import flatCache from "flat-cache";
-import fs from "fs";
-import path from "path";
-const path1 = path.resolve("../../", ".output/static/");
-const cache = flatCache.load("cacheId", path1);
+import { readFileSync } from "fs";
+import { join } from "path";
+
+const cache = flatCache.load("cacheId", join(__dirname, "_files/"));
 
 export function getSecret(id: string): { pd: string; text: string } | null {
   return cache.getKey(id);
 }
 
 export function setSecret(id: string, pd: string, text: string) {
-  console.log(fs.readdirSync("./"));
-  console.log(fs.readdirSync("../"));
-  console.log(fs.readdirSync("../../"));
-  console.log(fs.readdirSync("../../../"));
   cache.setKey(id, { pd, text });
   cache.save();
 }
