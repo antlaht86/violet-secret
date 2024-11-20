@@ -8,13 +8,17 @@ invariant(
 );
 
 const client = new MongoClient(
-  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.ratni.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1`
+  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.ratni.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1`,
+  {
+    connectTimeoutMS: 8000,
+    serverSelectionTimeoutMS: 8000,
+  }
 );
 
 export async function getSecret(id: string) {
   try {
     console.log("getSecret before connect");
-    await client.connect();
+
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
 
@@ -35,7 +39,6 @@ export async function setSecret(id: string, pd: string, text: string) {
   // cache.put(id, JSON.stringify({ pd, text }));
   try {
     console.log("1setSecret before connect");
-    await client.connect();
     console.log("2setSecret before connect");
 
     const database = client.db("violetsecret");
@@ -63,7 +66,6 @@ export async function setSecret(id: string, pd: string, text: string) {
 
 export async function removeSecret(id: string) {
   try {
-    await client.connect();
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
 
