@@ -1,8 +1,12 @@
 import { MongoClient } from "mongodb";
 import invariant from "tiny-invariant";
 
-invariant(process.env.MONGO_USER);
-invariant(process.env.MONGO_PASSWORD);
+invariant((process?.env?.MONGO_USER || "").length > 1, "MONGO_USER not set");
+invariant(
+  (process?.env?.MONGO_PASSWORD || "").length > 1,
+  "MONGO_PASSWORD not set"
+);
+
 const client = new MongoClient(
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.ratni.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1`
 );
@@ -32,6 +36,11 @@ export async function setSecret(id: string, pd: string, text: string) {
     await client.connect();
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
+    console.log("new secret", {
+      id: id,
+      pd: pd,
+      text,
+    });
 
     const query = { id: id };
     const secret = await secrets.insertOne({
