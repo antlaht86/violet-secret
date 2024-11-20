@@ -13,7 +13,7 @@ const client = new MongoClient(
 
 export async function getSecret(id: string) {
   try {
-    console.log("before connect");
+    console.log("getSecret before connect");
     await client.connect();
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
@@ -34,7 +34,10 @@ export async function getSecret(id: string) {
 export async function setSecret(id: string, pd: string, text: string) {
   // cache.put(id, JSON.stringify({ pd, text }));
   try {
+    console.log("1setSecret before connect");
     await client.connect();
+    console.log("2setSecret before connect");
+
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
     console.log("new secret", {
