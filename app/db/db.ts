@@ -13,6 +13,7 @@ const client = new MongoClient(
 
 export async function getSecret(id: string) {
   try {
+    console.log("before connect");
     await client.connect();
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
