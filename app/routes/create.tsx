@@ -85,7 +85,6 @@ export default function Create() {
   let [searchParams] = useSearchParams();
   let id = searchParams.getAll("id");
   const navigation = useNavigation();
-  console.log("➡️ navigation: ", navigation);
 
   const [isCopied, setCopied] = useClipboard(
     `${loaderData.baseUrl}/read/${id}`,
