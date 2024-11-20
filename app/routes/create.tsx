@@ -39,6 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const password = formData.get("password") as string | null;
   const text = formData.get("text") as string | null;
+  console.log("➡️ create action text: ", text);
 
   const errors: CustomError = {
     password: [],
