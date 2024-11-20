@@ -69,16 +69,12 @@ export const action: ActionFunction = async ({ request }) => {
 
   const readId = uuidv4();
   console.log("🤡 readId: ", readId);
-  try {
-    await setSecret(
-      readId,
-      encryptPassword(password as string),
-      encryptText(password!, text!)
-    );
-  } catch (error) {
-    console.log("➡️ set error: ", error);
-    throw new Error("Error while saving secret");
-  }
+
+  setSecret(
+    readId,
+    encryptPassword(password as string),
+    encryptText(password!, text!)
+  );
 
   return redirect(`/create/?id=${readId}`);
 };
