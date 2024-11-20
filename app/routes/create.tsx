@@ -68,7 +68,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const readId = uuidv4();
-
+  console.log("🤡 readId: ", readId);
   await setSecret(
     readId,
     encryptPassword(password as string),
