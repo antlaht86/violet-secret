@@ -7,9 +7,10 @@ import {
   useLoaderData,
   useParams,
 } from "remix";
-import { getSecret, removeSecret } from "~/db/db";
-import { decryptText, encryptPassword } from "~/crypto";
 import { CustomError, getInputStyle, inputStyle, labelStyle } from "../create";
+import { decryptText, encryptPassword } from "~/crypto";
+import { getSecret, removeSecret } from "~/db/db";
+
 import React from "react";
 
 export let loader: LoaderFunction = ({ request }) => {
@@ -44,7 +45,7 @@ export const action: ActionFunction = async ({ request }) => {
     return redirect("/ready");
   }
 
-  const res = getSecret(String(readId)) as unknown as IGetHsetAll;
+  const res = await getSecret(String(readId));
   console.log("🤡 res: ", res);
 
   const errors: ICustomError = {
@@ -64,7 +65,7 @@ export const action: ActionFunction = async ({ request }) => {
     if (value.length > 0) return errors;
   }
 
-  return decryptText(password as string, res.text);
+  return decryptText(password as string, res?.text ?? "this is empty");
 };
 
 export default function Read() {
