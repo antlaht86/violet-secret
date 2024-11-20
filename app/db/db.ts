@@ -9,6 +9,7 @@ const client = new MongoClient(
 
 export async function getSecret(id: string) {
   try {
+    await client.connect();
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
 
@@ -28,6 +29,7 @@ export async function getSecret(id: string) {
 export async function setSecret(id: string, pd: string, text: string) {
   // cache.put(id, JSON.stringify({ pd, text }));
   try {
+    await client.connect();
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
 
@@ -48,6 +50,7 @@ export async function setSecret(id: string, pd: string, text: string) {
 
 export async function removeSecret(id: string) {
   try {
+    await client.connect();
     const database = client.db("violetsecret");
     const secrets = database.collection("secrets");
 

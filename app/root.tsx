@@ -2,21 +2,21 @@ import {
   Links,
   LiveReload,
   Meta,
+  MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "remix";
-import type { MetaFunction } from "remix";
+} from "@remix-run/react";
 
-import styles from "./tailwind.css";
 import NavList from "./components/nav";
+import styles from "./tailwind.css";
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
 
 export const meta: MetaFunction = () => {
-  return { title: "Violet secret" };
+  return [{ title: "Violet secret" }];
 };
 
 export default function App() {

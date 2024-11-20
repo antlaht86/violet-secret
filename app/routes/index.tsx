@@ -1,4 +1,4 @@
-import { redirect } from "remix";
+import { redirect } from "@remix-run/react";
 
 export const loader = async () => {
   return redirect("/create");

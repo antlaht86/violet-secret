@@ -1,19 +1,21 @@
 import {
+  ActionFunction,
   Form,
+  Link,
   LoaderFunction,
   redirect,
-  useActionData,
-  useLoaderData,
+  useNavigation,
   useSearchParams,
-} from "remix";
-import type { ActionFunction } from "remix";
-import { setSecret } from "../db/db";
-import { v4 as uuidv4 } from "uuid";
-import { SecretFormData } from "~/types";
+} from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
+import React, { useState } from "react";
 import { encryptPassword, encryptText } from "~/crypto";
-import React from "react";
+import { useActionData, useLoaderData } from "@remix-run/react";
+
+import { SecretFormData } from "~/types";
+import { setSecret } from "../db/db";
 import useClipboard from "react-use-clipboard";
-import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 type ErrorsKeys = keyof SecretFormData;
 type CustomError = Record<ErrorsKeys, { id: string; message: string }[]>;
@@ -76,11 +78,14 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Create() {
+  const [showPassword, setShowPassword] = useState(false);
   let loaderData = useLoaderData<{ baseUrl: string; isMobile: boolean }>();
   const errors = useActionData<CustomError>();
   const isTabletOrMobile = loaderData.isMobile;
   let [searchParams] = useSearchParams();
   let id = searchParams.getAll("id");
+  const navigation = useNavigation();
+  console.log("➡️ navigation: ", navigation);
 
   const [isCopied, setCopied] = useClipboard(
     `${loaderData.baseUrl}/read/${id}`,
@@ -141,15 +146,24 @@ export default function Create() {
           <label htmlFor="password" className={labelStyle}>
             Password
           </label>
-          <input
-            ref={inputRef}
-            maxLength={MAX_LENGTH}
-            className={getInputStyle(errors?.password)}
-            minLength={MIN_LENGTH}
-            name="password"
-            type="text"
-            autoComplete="off"
-          />
+          <div className="w-full flex justify-end gap-2">
+            <input
+              ref={inputRef}
+              maxLength={MAX_LENGTH}
+              className={getInputStyle(errors?.password)}
+              minLength={MIN_LENGTH}
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="off"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className={"text-violet-500"}
+            >
+              {showPassword ? <Eye /> : <EyeOff />}
+            </button>
+          </div>
           <CustomError data={errors?.password} />
         </div>
         <div className={`m-5 ${isTabletOrMobile ? "w-11/12" : "w-1/2"}`}>
@@ -164,10 +178,11 @@ export default function Create() {
           <CustomError data={errors?.text} />
         </div>
         <button
+          disabled={navigation.state === "submitting"}
           className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 border border-violet-700 rounded"
           type="submit"
         >
-          Create
+          {navigation.state === "submitting" ? "Creating..." : "Create"}
         </button>
       </Form>
     </div>
